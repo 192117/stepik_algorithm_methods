@@ -21,9 +21,8 @@ def partition(points, low, high):
         while points[j] > points[m]:
             j -= 1
         if i >= j:
-            points[i], points[j] = points[j], points[i]
-            i += 1
-            j -= 1
+            return j
+        points[i], points[j] = points[j], points[i]
 
 
 def quick_sort(points, low, high):
