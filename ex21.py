@@ -2,29 +2,35 @@ n = int(input())
 
 
 def calc(n):
-    if n == 1:
-        print(0)
-        print(1)
-    if n == 2:
-        print(1)
-        print(*[1, 2], end=' ')
-    if n == 3:
-        print(1)
-        print(*[1, 3], end=' ')
-    if n > 3:
-        D = [float('inf') for i in range(n + 1)]
-        D[1] = 0
-        D[2] = 1
-        D[3] = 1
-        for i in range(4, n+1):
-            if i % 2 == 0 and i % 3 == 0:
-                D[i] = 1 + min(D[i-1], D[i//2], D[i//3])
-            elif i % 2 == 0:
-                D[i] = 1 + min(D[i - 1], D[i // 2])
-            elif i % 3 == 0:
-                D[i] = 1 + min(D[i - 1], D[i // 3])
-            else:
-                D[i] = 1 + D[i - 1]
-        print(D[n])
+    D = [float('inf') for i in range(n+1)]
+    parents = [None for i in range(n+1)]
+    D[0] = -1
+    for i in range(1, n+1):
+        current_parent = i - 1
+        current_d = D[current_parent] + 1
+
+        if i % 2 == 0:
+            parent = i // 2
+            d = D[parent] + 1
+            if d < current_d:
+                current_d, current_parent = d, parent
+
+        if i % 3 == 0:
+            parent = i // 3
+            d = D[parent] + 1
+            if d < current_d:
+                current_d, current_parent = d, parent
+
+        D[i] = current_d
+        parents[i] = current_parent
+
+    answer = []
+    k = n
+    while k > 0:
+        answer.append(k)
+        k = parents[k]
+
+    print(D[n])
+    print(*answer[::-1], end=' ')
 
 calc(n)
