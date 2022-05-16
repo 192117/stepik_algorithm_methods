@@ -17,7 +17,7 @@ def gis(A):
                 right = middle
         F[right] = A[i]
         pos[right] = i
-        prev[i] = pos[right-1]
+        prev.append([right, i, A[i]])
     k = -1
     for i in range(len(F)-1, -1, -1):
         if F[i] != float('-inf'):
